@@ -27,7 +27,7 @@ def set_Valid(modeladmin,request,queryset):
         message=f"{rows_updated} projects were"
     messages.success(request,message="%s successfully marked are valid"%message)
 set_Valid.short_description="Validate"
-
+#testgithub
 # Register your models here.
   #ajouter table product bil crud fil partie admin
 class projectinline(admin.TabularInline):
