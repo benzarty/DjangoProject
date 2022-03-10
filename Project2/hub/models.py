@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
 from django.core.exceptions import ValidationError
+
 # EmailValidator,MaxLengthValidator sinon on peut difinir des validator personalisé 
 
 
@@ -13,7 +14,6 @@ def emailValidator(email):
     return email
 
 #if not '@' in email:
-
 
 class User(models.Model):
     firstname=models.CharField(max_length=50)

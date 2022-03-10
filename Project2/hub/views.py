@@ -1,99 +1,122 @@
-from django.views.generic import ListView,CreateView
-from django.shortcuts import render,redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView,DeleteView
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
+
+
 def homePage(request):
     return HttpResponse('<h1>hahahaha</h1>')
 
+
+@login_required
 def list_Student(request):
-    list = Student.objects.all() #recuper tout les etudiant
+    list = Student.objects.all()  # recuper tout les etudiant
     context = {
-        'list_students':list,
+        'list_students': list,
     }
-    return render(request, 'hub/list.html',{'list_students':list,})
+    return render(request, 'hub/list.html', {'list_students': list, })
 
 
-def detail_student(request,id):
-    student = Student.objects.get(id=id)  #get_object_or_404(Student,pk=id)
-    return render(request, 'hub/details.html',{'student':student,})
+def detail_student(request, id):
+    student = Student.objects.get(id=id)  # get_object_or_404(Student,pk=id)
+    return render(request, 'hub/details.html', {'student': student, })
 
 
 def listprojet(request):
-    list = Project.objects.all() #recuper tout les etudiant
+    list = Project.objects.all()  # recuper tout les etudiant
 
-    return render(request, 'hub/listprojet.html',{'object_list':list})
-
-class ProjectLissstView(ListView):
-    model=Project
-    template_name='hub/listprojet.html'
-    # geenret une vue basé sur modele 
+    return render(request, 'hub/listprojet.html', {'object_list': list})
 
 
 
-
+class ProjectLissstView(LoginRequiredMixin,ListView):
+    model = Project
+    template_name = 'hub/listprojet.html'
+    # geenret une vue basé sur modele
 
 
 def addStudent(request):
-    # print(request.POST) 
+    # print(request.POST)
     if request.method == "POST":
-        firstname=request.POST.get("firstname")
-        lastname=request.POST.get("lastname")
-        email=request.POST.get("email")
-
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
 
         Student.objects.create(
-             firstname=firstname,
-             lastname=lastname,
-             email=email
+            firstname=firstname,
+            lastname=lastname,
+            email=email
 
         )
         return redirect('student_displayyyyyyyyy')
 
-
-    return render(request,'hub/addstudent.html')
+    return render(request, 'hub/addstudent.html')
 
 
 def addstudentform(request):
-    form=StudentForm()
+    form = StudentForm()
 
     if request.method == "POST":
-      form=StudentForm(request.POST)
-      if form.is_valid():
+        form = StudentForm(request.POST)
+        if form.is_valid():
 
-        Student.objects.create(
+            Student.objects.create(
 
-             firstname=form.cleaned_data.get('firstname'),
+                firstname=form.cleaned_data.get('firstname'),
 
-             lastname=form.cleaned_data['lastname'],
+                lastname=form.cleaned_data['lastname'],
 
-             email=form.cleaned_data['email']
+                email=form.cleaned_data['email']
 
-        )
-      return redirect('student_displayyyyyyyyy')
+            )
+        return redirect('student_displayyyyyyyyy')
 
-
-    return render(request,'hub/addFormsss.html',{'form' : form})      
-   
+    return render(request, 'hub/addFormsss.html', {'form': form})
 
 
 def addstudentmodelformm(request):
-      form=StudentModelForm()
+    form = StudentModelForm()
 
-      if request.method == "POST":
-       form=StudentModelForm(request.POST)
-       if form.is_valid():
+    if request.method == "POST":
+        form = StudentModelForm(request.POST)
+        if form.is_valid():
 
-        student=form.save()
-        return redirect('student_displayyyyyyyyy')
+            student = form.save()
+            return redirect('student_displayyyyyyyyy')
 
-
-      return render(request,'hub/addFormsss.html',{'form' : form})  
+    return render(request, 'hub/addFormsss.html', {'form': form})
 
 
 class StudentCreateView(CreateView):
     model = Student
-    form_class=StudentModelForm
-    template_name='hub/addFormsss.html' 
+    form_class = StudentModelForm
+    template_name = 'hub/addFormsss.html'
+
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    form_class = StudentModelForm
+    template_name = 'hub/addFormsss.html'
+    success_url= reverse_lazy("student_displayyyyyyyyy")
+
+
+
+class StudentDeleteView(DeleteView):
+    model = Student
+    template_name = 'hub/Delete.html'
+    success_url= reverse_lazy("student_displayyyyyyyyy")
+
+def deletestudent(request,id):
+    st=Student.objects.get(pk=id)
+    st.delete()
+    return redirect('student_displayyyyyyyyy')
+
+# lezem yal9a form kilma fil html
+# yarja3 wa7dou lil lien héthéké 3leh ?  w class meta chnowa héthika ?

@@ -5,7 +5,7 @@ from hub.models import Student
 
 class StudentForm(forms.Form):
     firstname=forms.CharField(
-         label="nom : ",
+         label="nommmm  ",
          max_length=50,
 
 
