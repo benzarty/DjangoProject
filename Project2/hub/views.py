@@ -1,11 +1,13 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView,DeleteView
+from django.views.generic import ListView, CreateView, UpdateView,DeleteView,DetailView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 # Create your views here.
@@ -14,6 +16,10 @@ from django.contrib.auth.decorators import login_required
 def homePage(request):
     return HttpResponse('<h1>hahahaha</h1>')
 
+# if not user.is_authenticated:  // request.user.is_authenticated
+#   ..........
+# else:
+    # ........ affichi page normal
 
 @login_required
 def list_Student(request):
@@ -21,7 +27,7 @@ def list_Student(request):
     context = {
         'list_students': list,
     }
-    return render(request, 'hub/list.html', {'list_students': list, })
+    return render(request, 'hub/list.html', {'list_students': list, }) #fil video 3adina context
 
 
 def detail_student(request, id):
@@ -39,8 +45,13 @@ def listprojet(request):
 class ProjectLissstView(LoginRequiredMixin,ListView):
     model = Project
     template_name = 'hub/listprojet.html'
-    # geenret une vue basé sur modele
+    #ordering=['-name'] lil ordre
+   # context_object_name.: bech tebadel esmeha ma3adech object_list
+   # geenret une vue basé sur modele
 
+def detail_student(request, id):
+    student = Student.objects.get(id=id)  # get_object_or_404(Student,pk=id)
+    return render(request, 'hub/details.html', {'student': student, })
 
 def addStudent(request):
     # print(request.POST)
@@ -120,3 +131,14 @@ def deletestudent(request,id):
 
 # lezem yal9a form kilma fil html
 # yarja3 wa7dou lil lien héthéké 3leh ?  w class meta chnowa héthika ?
+
+#min 3andi 
+def signup(request):
+    if request.method =='POST':
+        form=UserCreationForm(request.POST) #l envoi de la requette sera en mode post
+        if form.is_valid():
+            form.save()
+            return redirect('student_displayyyyyyyyy')
+    else:
+         form=UserCreationForm()
+    return render(request, 'hub/signup.html',{'f':form})

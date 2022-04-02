@@ -37,7 +37,7 @@ class projectinline(admin.TabularInline):
 
 class studentAdmin(admin.ModelAdmin):
     list_display=('lastname','firstname','email') #ordre
-    fields=(('lastname','firstname'),'email')  #fard ligne ou nn
+    fields=(('lastname','firstname'),'email')  #fard ligne ou nn (exclude : pour ne pas integrer un champ)
     inlines=[projectinline]
 
 @admin.register(Supervisor)

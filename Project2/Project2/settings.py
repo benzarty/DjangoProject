@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 LOGIN_REDIRECT_URL ='student_displayyyyyyyyy'
 LOGOUT_REDIRECT_URL='login'
-LOGIN_URL='login'
+LOGIN_URL='login'  #ki temchi page moch authetifié yehezek lil login(methode fou9eha login required wala loginrequinredmixin)
 
 
 # Default primary key field type

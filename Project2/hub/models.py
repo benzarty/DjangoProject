@@ -45,7 +45,8 @@ class Project(models.Model):
         members=models.ManyToManyField(Student,related_name="lesmembers",blank=True,through="MembershipProject")
         def __str__(self) :
           return self.name +" " +str(self.duration)  #fil str héthi win table relation projet : esm w duration
-
+        def __unicode__(self):
+         return self.name
           
          #models.SET_NULL :ki tefasa5 supervisor yetfasa5ech projet
          #cascade :When the referenced object is deleted, also delete the objects that have references to it

@@ -15,8 +15,8 @@ class Product(models.Model):
     category=models.ForeignKey(Category,on_delete=models.CASCADE, null=True)
 
   
-
-
+#fil html tenajem teged ba3ed | date : 'Y-m-d' ki tebda 3andek date
+# zedé {{ a| length}} ya3tik nb
 # EmailField,FileField,DateField,IntegerField
 
 

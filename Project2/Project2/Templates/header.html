@@ -28,10 +28,5 @@
     <li class="nav-item">
       <a class="nav-link" href="{% url 'logout' %}">logout</a>
     </li>
-    {% if request.user.is_authenticated %}
-  greeting {{request.user.username}}
-{% else %}
-greeting visitors
-
-    {% endif %}
+ <div>copyright {% now 'Y' %} esprit</div>
   </ul>
